@@ -17,10 +17,11 @@ else
 fi
 
 # if we're not in the root directory, cd to it
-pushd $(git rev-parse --show-toplevel)
+cd $(git rev-parse --show-toplevel)
 mkdir -p ./cmd/$year/$day
 cp -r ./template/* ./cmd/$year/$day
 
 touch ./cmd/$year/$day/input.txt
 touch ./cmd/$year/$day/input_example.txt
-popd
+
+echo "done"
