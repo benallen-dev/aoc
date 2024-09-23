@@ -47,4 +47,3 @@ func TestPeek(t *testing.T) {
 		t.Errorf("Expected 1337, but got %v", p)
 	}
 }
-		

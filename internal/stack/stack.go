@@ -19,6 +19,7 @@ func New [T any](items []T) Stack[T] {
 
 func (s *Stack[T]) String() string {
 	out := ""
+	
 	for i, v := range s.items {
 		if i == 0 {
 			out += "["
@@ -31,7 +32,6 @@ func (s *Stack[T]) String() string {
 		if i == len(s.items) -1 {
 			out += "]"
 		}
-
 	}
 
 	return out
@@ -42,7 +42,6 @@ func (s *Stack[T]) Push(v T) {
 	s.size = s.size + 1
 }
 
-// WILL RETURN ZERO VALUE INSTEAD OF AN
 func (s *Stack[T]) Pop() (T, error) {
 	if s.isEmpty() {
 		var zero T
