@@ -27,6 +27,5 @@ func (p Pair) FullOverlap() bool {
 
 // Oh man I got so lucky choosing the right structure, nice
 func (p Pair) PartialOverlap() bool {
-	return
-
+	return p.Ass1.start <= p.Ass2.end && p.Ass1.end >= p.Ass2.start
 }

@@ -18,5 +18,14 @@ func main() {
 	}
 
 	fmt.Printf("Part 1: %d\n", c)
+
+	c = 0
+	for _, v := range input {
+		if v.PartialOverlap() {
+			c++
+		}
+	}
+
+	fmt.Printf("Part 2: %d\n", c)
 }
 
