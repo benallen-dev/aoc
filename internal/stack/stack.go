@@ -5,11 +5,18 @@ import (
 	"fmt"
 )
 
+// It occurs to me that instead of using a slice you could use a linked list
+// for O(1) pushes and pops, because you likely don't care about the rest of
+// the state anyway - but I'm too lazy to change that until all the memory
+// allocation stuff starts to become an issue.
+
 type Stack[T any] struct{
 	items []T
 	size int
+	Formatter func(v T) string
 }
 
+// I should try the WithFoo pattern for changing the formatter instead of just exposing internals
 func New [T any](items []T) Stack[T] {
 	return Stack[T] {
 		items: items,
@@ -26,8 +33,12 @@ func (s *Stack[T]) String() string {
 		} else if i < len(s.items) {
 			out += ", "
 		}
-		
-		out += fmt.Sprintf("%v", v)
+
+		if s.Formatter != nil {
+			out += s.Formatter(v)
+		} else {
+			out += fmt.Sprintf("%v", v)
+		}
 
 		if i == len(s.items) -1 {
 			out += "]"

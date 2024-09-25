@@ -2,28 +2,8 @@ package main
 
 import (
 	"bufio"
-//	"fmt"
 	"os"
-
-	"aoc/internal/stack"
 )
-
-// --------------------
-//     [D]    
-// [N] [C]    
-// [Z] [M] [P]
-//  1   2   3 
-
-// move 1 from 2 to 1
-// move 3 from 1 to 3
-// move 2 from 2 to 1
-// move 1 from 1 to 2
-// --------------------
-
-func createStack () stack.Stack[rune] {
-	foo := []rune{}
-	return stack.New(foo)
-}
 
 func readInput(filename string) ([]string, error) {
 	var out []string
@@ -34,17 +14,10 @@ func readInput(filename string) ([]string, error) {
 	}
 
 	defer file.Close()
+
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		// var us, them rune
-
-		// line := scanner.Text()
-		// _, err := fmt.Sscanf(line, "%c %c", &them, &us)
-		// if err != nil {
-		// 	return nil, err
-		// }
-
 		out = append(out, scanner.Text())
 	}
 
@@ -53,5 +26,12 @@ func readInput(filename string) ([]string, error) {
 		return nil, scanerr
 	}
 
+	// cool, so out is a slice of strings now.
+	// You could just use ioutil.ReadFile but this is what I have in the template.
+	//
+	// You could also parse these as they come in but the initial input is only
+	// 500 lines and so I'm not too bothered about memory performance of reading
+	// the input, when we could be focusing on the interesting part of parsing
+	// the initial state and doing some stack operations.
 	return out, nil
 }
