@@ -29,42 +29,6 @@ func (r rule) String() string {
 	return fmt.Sprintf("%d|%d", r[0], r[1])
 }
 
-type update map[int]int
-
-func (u update) IntSlice() []int {
-
-	ints := make([]int, len(u), len(u))
-	for k, v := range u {
-		ints[v] = k
-	}
-
-	return ints
-}
-
-func (u update) String() string {
-	return fmt.Sprint(u.IntSlice())
-}
-
-func (u update) Valid(rules []rule) bool {
-	for _, rule := range rules {
-		_, okleft := u[rule[0]]  // left exists in update
-		_, okright := u[rule[1]] // right exists in update
-
-		// if both left and right exist and position of left > position of right, it's invalid
-		if okleft && okright && u[rule[0]] > u[rule[1]] {
-			return false
-		}
-	}
-
-	return true
-}
-func (u update) ValidString(rules []rule) string {
-	if u.Valid(rules) {
-		return "valid"
-	}
-	return "invalid"
-}
-
 func readInput(filename string) (rules []rule, updates []update, err error) {
 	rules = []rule{}
 	updates = []update{}
