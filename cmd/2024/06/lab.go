@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+//	"time"
 )
 
 // [line, col]
@@ -36,6 +37,7 @@ type lab struct {
 	height int
 	obstacles map[position]bool
 	guard guard
+	guardInit guard
 }
 
 func (l lab) String() string {
@@ -66,7 +68,7 @@ func (l lab) Draw() string {
 	return out
 }
 
-func (l *lab) Tick() {
+func (l *lab) Tick() (dirChange bool) {
 	move := map[direction]func(position) position {
 		DirUp: func(x position) position { return position{ x[0] -1, x[1] } },
 		DirDown: func(x position) position { return position{ x[0] +1, x[1] } },
@@ -79,8 +81,10 @@ func (l *lab) Tick() {
 	// If obstacle, change direction
 	if _, ok := l.obstacles[next]; ok {
 		l.guard.dir = (l.guard.dir + 1) % 4
+		return true
 	} else { // If not, move guard
 		l.guard.pos = next
+		return false
 	}
 }
 
@@ -102,3 +106,38 @@ func (l lab) GuardPresent() bool {
 
 	return true
 }
+
+func (l *lab) ResetGuard() {
+	l.guard = l.guardInit
+}
+
+func (l lab) TestForLoop(newObstacle position) bool {
+	l.ResetGuard()
+	l.obstacles[newObstacle] = true
+
+	guardPositions := map[guard]bool{}
+
+	for l.GuardPresent() {
+		dirChange := l.Tick()
+	
+		// redraw
+		// fmt.Print("\033[H\033[2J")
+		// fmt.Println(l.Draw())
+		// time.Sleep(100 * time.Millisecond)
+
+
+
+		if _, ok := guardPositions[l.guard] ; ok && !dirChange{
+			// loop detected
+			delete(l.obstacles, newObstacle)
+			return true
+		}
+
+		guardPositions[l.guard] = true
+	}
+
+
+	delete(l.obstacles, newObstacle)
+	return false
+}
+

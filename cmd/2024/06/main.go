@@ -18,5 +18,15 @@ func main() {
 	}
 
 	fmt.Println("Part 1:", guardPositions.Length())
+
+	// Part 2
+	var loops int
+	for pos := range guardPositions {
+		if lab.TestForLoop(pos) {
+			loops++
+		}
+	}
+
+	fmt.Println("Part 2:", loops)
 }
 

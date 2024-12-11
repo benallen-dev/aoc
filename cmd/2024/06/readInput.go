@@ -38,6 +38,8 @@ func readInput(filename string) (lab, error) {
 					pos: [2]int{lc, i},
 					dir: DirUp,
 				}
+
+				out.guardInit = out.guard
 			}
 		}
 
